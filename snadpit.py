@@ -56,9 +56,7 @@ def currency(x):
     return "${:.2f}".format(x)
 
 
-# Gets expenses, returns list which has
-# the data frame and subtotal
-def get_expenses(var_fixed):
+def get_expenses():
     # Set up dictionaries and lists
 
     item_list = []
@@ -83,15 +81,11 @@ def get_expenses(var_fixed):
         if item_name.lower() == "xxx":
             break
 
-        if var_fixed == "variable":
-            quantity = num_check("Quantity:",
-                                 "The amount must be a whole number "
-                                 "more than zero",
-                                 int)
-        else:
-            quantity = 1
-
-        price = num_check("How much? $",
+        quantity = num_check("Quantity:",
+                             "The amount must be a whole number "
+                             "more than zero",
+                             int)
+        price = num_check("How much for a single item? $",
                           "The price must be a number <more "
                           "than 0>",
                           float)
@@ -118,40 +112,19 @@ def get_expenses(var_fixed):
     return [expense_frame, sub_total]
 
 
-# Prints expenses, returns list which has
-def expense_print(heading, frame, subtotal):
-    
-    print()
-    print("**** {} Costs ****".format(heading))
-    print(frame)
-    print()
-    print("{} Costs: ${:.2f}".format(heading, subtotal))
-    return ""
-
-
 # *** Main routine starts here ***
 
 # Get product name
 product_name = not_blank("Product name: ", "The product name can")
 
-print()
-print("Please enter your variable costs below...")
 # Get variable costs
-variable_expenses = get_expenses("variable")
+variable_expenses = get_expenses()
 variable_frame = variable_expenses[0]
 variable_sub = variable_expenses[1]
 
-print()
-have_fixed = yes_no("Do you have fixed costs (y / n)? ")
-
-if have_fixed == "yes":
-    # Get fixed costs
-    fixed_expenses = get_expenses("fixed")
-    fixed_frame = fixed_expenses[0]
-    fixed_sub = fixed_expenses[1]
-else:
-    fixed_frame = None
-    fixed_sub = 0
+fixed_expenses = get_expenses()
+fixed_frame = fixed_expenses[0]
+fixed_sub = fixed_expenses[1]
 
 # Find Total Costs
 
@@ -163,11 +136,6 @@ else:
 
 # *** Printing Area ****
 
+print("**** Variable Costs ****")
+print(variable_frame)
 print()
-print("**** Fund Raising - {} ****".format(product_name))
-print()
-expense_print("Variable", variable_frame, variable_sub)
-
-if have_fixed == "yes":
-    expense_print("Fixed", fixed_frame[['Cost']], fixed_sub)
-               
