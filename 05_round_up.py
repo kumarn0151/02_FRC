@@ -12,4 +12,3 @@ to_round = [2.75, 2.25, 2]
 for item in to_round:
     rounded = round_up(item, 5)
     print("${:.2f} --> ${:.2f}".format(item, rounded))
-    

@@ -1,5 +1,6 @@
 # import libraries
 import pandas
+import math
 
 
 # checks users enter a number that is more than zero.
@@ -193,10 +194,18 @@ def profit_goal(total_costs):
             return goal
 
 
+def round_up(amount, round_to):
+    return int(math.ceil(amount / round_to)) * round_to
+
+
 # *** Main routine starts here ***
 
 # Get product name
 product_name = not_blank("Product name: ", "The product name can")
+
+how_many = num_check("How many items will you be producing? ",
+                     "The number of items must be whole "
+                     " number more than zero", int)
 
 print()
 print("Please enter your variable costs below...")
@@ -221,8 +230,17 @@ else:
 all_cost = variable_sub + fixed_sub
 profit_target = profit_goal(all_cost)
 
+# Calculate total sales needed to reach goal
+sales_needed = all_cost + profit_target
+
+# Ask user for rounding
+round_to = num_check("Round tp nearest...? ",
+                     "Can't be 0", int)
+
 # Calculate recommended price
-selling_price = 0
+selling_price = sales_needed / how_many
+print("Selling Price (Un-rounded): "
+      "${:.2f}".format(selling_price))
 
 # Write data to file
 
